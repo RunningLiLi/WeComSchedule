@@ -1,5 +1,5 @@
 
-
+import useAppStore from "@/store/modules/app";
 /**
  * 通用js方法封装处理
  * Copyright (c) 2019 ruoyi
@@ -249,4 +249,23 @@ export async function blobValidate(data) {
   } catch (error) {
     return true;
   }
+}
+// 计算页面高度
+export function getInitTableHeight(height) {
+  const appStore = useAppStore();
+  const size = computed(() => appStore.size);
+  if(height == null || height== '' || height == undefined){
+    height = 0;
+  }
+  let tableHeight = ref("calc(100vh - 292px)");
+  let realHeight = 0;
+  if(size.value == 'large'){
+     realHeight = (305-height);
+  }else if(size.value == 'default'){
+      realHeight = (292-height);
+  }else if(size.value == 'small'){
+      realHeight = (285-height);
+  }
+  tableHeight = ref("calc(100vh - "+realHeight+"px)");
+  return tableHeight;
 }
